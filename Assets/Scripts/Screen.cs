@@ -7,12 +7,12 @@ using Newtonsoft.Json.Linq;
 
 public class Screen : MonoBehaviour
 {
-    //Network/Game Interface Methods
-    public delegate void OnPlayerConnect(int deviceId);
-    public static OnPlayerConnect onPlayerConnect;
+	//Network/Game Interface Methods
+	public delegate void OnPlayerConnect(int deviceId);
+	public static OnPlayerConnect onPlayerConnect;
 
-    public delegate void OnPlayerDisconnect(int deviceId);
-    public static OnPlayerDisconnect onPlayerDisconnect;
+	public delegate void OnPlayerDisconnect(int deviceId);
+	public static OnPlayerDisconnect onPlayerDisconnect;
 
     public delegate void OnPlayerTap(int deviceId);
     public static OnPlayerTap onPlayerTap;
@@ -24,8 +24,8 @@ public class Screen : MonoBehaviour
         onPlayerTap = null;
     }
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
 	{
 		AirConsole.instance.onConnect += OnConnect;
 		AirConsole.instance.onDisconnect += OnDisconnect;
@@ -48,21 +48,21 @@ public class Screen : MonoBehaviour
 			type = "init",
 			data = JObject.FromObject(new
 			{
-				avatar = "avatar" + deviceId + ".png",
+				avatar = "orangered",
 				sequence = new JArray(1, 2, 3, 4, 5)
 			})
 		};
 		AirConsole.instance.Message(deviceId, message);
 
-        if (onPlayerConnect != null)
-            onPlayerConnect(deviceId);
+		if (onPlayerConnect != null)
+			onPlayerConnect(deviceId);
 	}
 
 	void OnDisconnect(int deviceId)
 	{
 		Debug.Log("Instance disconnected: " + deviceId);
-        if (onPlayerDisconnect != null)
-            onPlayerDisconnect(deviceId);
+		if (onPlayerDisconnect != null)
+			onPlayerDisconnect(deviceId);
 	}
 
 	// Update is called once per frame

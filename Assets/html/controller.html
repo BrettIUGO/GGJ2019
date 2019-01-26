@@ -7,27 +7,98 @@
 	<script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
 	<script type="text/javascript">
 		var airConsole = new AirConsole();
+		var elAvatar;
+		var elStatus;
+
+		function init() {
+			elAvatar = document.getElementById("avatar");
+			elStatus = document.getElementById("status");
+		}
 
 		function initController(avatar, sequence) {
-			alert(avatar + ', ' + JSON.stringify(sequence));
+			elAvatar.style.backgroundColor = avatar;
+			elAvatar.style.visibility = "visible";
+
+			elStatus.textContent = '';
+
+			// alert(avatar + ', ' + JSON.stringify(sequence));
 		}
 
 		airConsole.onMessage = function (deviceId, message) {
 			switch (message.type) {
 				case "init":
-					if(deviceId == AirConsole.SCREEN)
+					if (deviceId == AirConsole.SCREEN)
 						initController(message.data.avatar, message.data.sequence);
 					break;
 			}
 		}
 		function doThing() {
-			airConsole.message(AirConsole.SCREEN, {type: "pulse"});
+			airConsole.message(AirConsole.SCREEN, { type: "pulse" });
 		}
 	</script>
+	<style type="text/css">
+		html,
+		body {
+			height: 100%;
+			margin: 0px;
+			color: white;
+			text-align: center;
+			background-color: black;
+		}
+
+		#button {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background-color: red;
+			opacity: 0;
+			z-index: 100;
+		}
+
+		#avatar {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+			height: 50%;
+			width: 50%;
+			background-color: blue;
+			visibility: hidden;
+			z-index: 1;
+		}
+
+		#symbol {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+			height: 70%;
+			width: 70%;
+			background-color: orange;
+			opacity: 0;
+			z-index: 2;
+		}
+
+		#status {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+			z-index: 3;
+		}
+	</style>
 </head>
 
-<body>
-	<input type="button" onclick="doThing()" value="Hit Me">
+<body onload="init()">
+	<div id="button" onclick="doThing()"></div>
+	<div id="avatar"></div>
+	<div id="symbol"></div>
+	<div id="status">Initializing...</div>
 </body>
 
 </html>
