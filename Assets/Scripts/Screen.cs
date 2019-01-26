@@ -66,7 +66,18 @@ public class Screen : MonoBehaviour
 			data = JObject.FromObject(new
 			{
 				avatar = "orangered",
-				sequence = new JArray(1, 2, 3, 4, 5)
+				sequence = new JArray(1, 4, 3, 2, 5),
+				index = 3,
+				symbols = new JArray(
+					new JArray("✤", 255, 0, 0),
+					new JArray("★", 255, 127, 0),
+					new JArray("♥", 255, 255, 0),
+					new JArray("♦", 127, 255, 0),
+					new JArray("■", 0, 255, 0),
+					new JArray("▲", 0, 127, 255),
+					new JArray("●", 127, 0, 255),
+					new JArray("❀", 255, 0, 191)
+				)
 			})
 		};
 		AirConsole.instance.Message(deviceId, message);
