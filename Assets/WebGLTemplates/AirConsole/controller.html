@@ -12,6 +12,7 @@
 		var elSymbol;
 
 		var symbolSequence;
+		var symbols;
 		var nextSymbol = 0;
 
 		function init() {
@@ -20,13 +21,16 @@
 			elSymbol = document.getElementById("symbol");
 		}
 
-		function initController(avatar, sequence) {
+		function initController(avatar, sequence, index, sym) {
 			elAvatar.style.backgroundColor = avatar;
 			elAvatar.style.visibility = "visible";
 
 			elStatus.textContent = '';
 
 			symbolSequence = sequence;
+			nextSymbol = index;
+
+			symbols = sym;
 
 			// alert(avatar + ', ' + JSON.stringify(sequence));
 		}
@@ -35,7 +39,7 @@
 			switch (message.type) {
 				case "init":
 					if (deviceId == AirConsole.SCREEN)
-						initController(message.data.avatar, message.data.sequence);
+						initController(message.data.avatar, message.data.sequence, message.data.index, message.data.symbols);
 					break;
 			}
 		}
@@ -43,7 +47,10 @@
 		function doThing() {
 			airConsole.message(AirConsole.SCREEN, { type: "pulse" });
 
-			elSymbol.textContent = "boop " + symbolSequence[nextSymbol];
+			symbol = symbols[symbolSequence[nextSymbol]];
+			elSymbol.textContent = symbol[0];
+			elSymbol.style.color = "rgba(" + symbol[1], ",", symbol[2], ",", symbol[3], ",0.7)";
+
 			nextSymbol = (nextSymbol + 1) % symbolSequence.length;
 		}
 	</script>
@@ -89,6 +96,7 @@
 			transform: translate(-50%, -50%);
 			height: 70%;
 			width: 70%;
+			font-size: 70vmin;
 			z-index: 2;
 		}
 
