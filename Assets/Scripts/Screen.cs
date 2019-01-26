@@ -59,36 +59,26 @@ public class Screen : MonoBehaviour
 	void OnConnect(int deviceId)
 	{
 		Debug.Log("Instance connected: " + deviceId);
-
-		var message = new
-		{
-			type = "init",
-			data = JObject.FromObject(new
-			{
-				avatar = "orangered",
-				sequence = new JArray(1, 4, 3, 2, 5),
-				index = 3,
-				symbols = new JArray(
-					new JArray("✤", 255, 0, 0),
-					new JArray("★", 255, 127, 0),
-					new JArray("♥", 255, 255, 0),
-					new JArray("♦", 127, 255, 0),
-					new JArray("■", 0, 255, 0),
-					new JArray("▲", 0, 127, 255),
-					new JArray("●", 127, 0, 255),
-					new JArray("❀", 255, 0, 191)
-				)
-			})
-		};
-		AirConsole.instance.Message(deviceId, message);
+        	
 
 		if (onPlayerConnect != null)
 			onPlayerConnect(deviceId);
 	}
 
-    public void InitPlayer(int[] sequence, int startingIndex)
+    public void InitPlayer(int deviceId, int[] sequence, int startingIndex)
     {
-
+        var message = new
+        {
+            type = "init",
+            data = JObject.FromObject(new
+            {
+                avatar = "orangered",
+                sequence = new JArray(sequence),
+                index = startingIndex,
+                symbols = GameController.Instance.symbolsJSON
+            })
+        };
+        AirConsole.instance.Message(deviceId, message);
     }
 
 	void OnDisconnect(int deviceId)

@@ -8,6 +8,7 @@ public class FamiliesManager : MonoBehaviour
     public GameObject familyPrefab;
     [Range(2, 100)]
     public int maxFamilyMemberCount = 20;
+    public float tapListenDuration = 2.5f;
 
     private List<FamilyController> families;
 
@@ -42,7 +43,7 @@ public class FamiliesManager : MonoBehaviour
         for(int i = 0; i < playerControllers.Length; ++i)
         {
             PlayerController player = playerControllers[i];
-            if (Time.time - playerControllers[i].lastTapTime > 2.5f) //Been too long since they last tapped, ignore
+            if (Time.time - playerControllers[i].lastTapTime > tapListenDuration) //Been too long since they last tapped, ignore
                 continue;
 
             //Find which symbol they signalled and store similar players together

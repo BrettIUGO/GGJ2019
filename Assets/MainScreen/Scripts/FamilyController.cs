@@ -96,7 +96,7 @@ public class FamilyController : MonoBehaviour
         _sequence = new int[defaultSequenceLength];
         for(int i = 0; i < defaultSequenceLength; ++i)
         {
-            _sequence[i] = Random.Range(0, GameController.symbols.Length - 1);
+            _sequence[i] = Random.Range(0, GameController.Instance.symbols.Length - 1);
         }
 
 
@@ -121,7 +121,7 @@ public class FamilyController : MonoBehaviour
 
         int startingIndex = Random.Range(0, defaultSequenceLength - 1);
         playerData.game.SetSequenceStartIndex(startingIndex);
-        screen.InitPlayer(_sequence, startingIndex);
+        screen.InitPlayer(deviceId, _sequence, startingIndex);
     }
 
     public bool RemovePlayer(int deviceId)
