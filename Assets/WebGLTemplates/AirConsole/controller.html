@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Controller</title>
+    <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
+    <script type="text/javascript">
+      var air_console = new AirConsole();
+
+	  function doThing() {
+      	air_console.message(AirConsole.SCREEN, "How are you?");
+	  }
+	</script>
+  </head>
+  <body>
+	<input type="button" onclick="doThing()" value="Hit Me">
+  </body>
+</html>
