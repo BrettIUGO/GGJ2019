@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Controller</title>
-    <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
-    <script type="text/javascript">
-      var air_console = new AirConsole();
 
-	  function doThing() {
-      	air_console.message(AirConsole.SCREEN, "How are you?");
-	  }
+<head>
+	<meta charset="utf-8">
+	<title>Controller</title>
+	<script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
+	<script type="text/javascript">
+		var airConsole = new AirConsole();
+
+		function initController(avatar, sequence) {
+			alert(avatar + ', ' + JSON.stringify(sequence));
+		}
+
+		airConsole.onMessage = function (deviceId, message) {
+			switch (message.type) {
+				case "init":
+					if(deviceId == AirConsole.SCREEN)
+						initController(message.data.avatar, message.data.sequence);
+					break;
+			}
+		}
+		function doThing() {
+			airConsole.message(AirConsole.SCREEN, {type: "pulse"});
+		}
 	</script>
-  </head>
-  <body>
+</head>
+
+<body>
 	<input type="button" onclick="doThing()" value="Hit Me">
-  </body>
+</body>
+
 </html>
