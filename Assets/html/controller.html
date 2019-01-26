@@ -9,10 +9,15 @@
 		var airConsole = new AirConsole();
 		var elAvatar;
 		var elStatus;
+		var elSymbol;
+
+		var symbolSequence;
+		var nextSymbol = 0;
 
 		function init() {
 			elAvatar = document.getElementById("avatar");
 			elStatus = document.getElementById("status");
+			elSymbol = document.getElementById("symbol");
 		}
 
 		function initController(avatar, sequence) {
@@ -20,6 +25,8 @@
 			elAvatar.style.visibility = "visible";
 
 			elStatus.textContent = '';
+
+			symbolSequence = sequence;
 
 			// alert(avatar + ', ' + JSON.stringify(sequence));
 		}
@@ -32,8 +39,12 @@
 					break;
 			}
 		}
+
 		function doThing() {
 			airConsole.message(AirConsole.SCREEN, { type: "pulse" });
+
+			elSymbol.textContent = "boop " + symbolSequence[nextSymbol];
+			nextSymbol = (nextSymbol + 1) % symbolSequence.length;
 		}
 	</script>
 	<style type="text/css">
@@ -78,8 +89,6 @@
 			transform: translate(-50%, -50%);
 			height: 70%;
 			width: 70%;
-			background-color: orange;
-			opacity: 0;
 			z-index: 2;
 		}
 
