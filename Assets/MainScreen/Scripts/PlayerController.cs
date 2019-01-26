@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         set
         {
-            this.family = value;
+            _family = value;
         }
     }
 

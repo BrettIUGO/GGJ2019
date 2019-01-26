@@ -39,6 +39,9 @@ public class FamiliesManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerControllers == null)
+            return;
+
         matchingSymbols.Clear();
         for(int i = 0; i < playerControllers.Length; ++i)
         {

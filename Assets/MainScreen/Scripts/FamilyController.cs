@@ -112,6 +112,7 @@ public class FamilyController : MonoBehaviour
         Player playerData;
         playerData.movement = player.GetComponent<PlayerMovement>();
         playerData.game = player.GetComponent<PlayerController>();
+        playerData.game.family = this;
 
         familyMembers.Add(deviceId, playerData);
         player.transform.position = new Vector3(
