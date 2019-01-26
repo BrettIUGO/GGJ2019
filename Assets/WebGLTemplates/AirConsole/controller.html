@@ -7,12 +7,20 @@
 	<script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
 	<script type="text/javascript">
 		var airConsole = new AirConsole();
+		var elAvatar;
+		var elStatus;
 
 		function init() {
-
+			elAvatar = document.getElementById("avatar");
+			elStatus = document.getElementById("status");
 		}
 
 		function initController(avatar, sequence) {
+			elAvatar.style.backgroundColor = avatar;
+			elAvatar.style.visibility = "visible";
+
+			elStatus.textContent = '';
+
 			// alert(avatar + ', ' + JSON.stringify(sequence));
 		}
 
@@ -38,18 +46,18 @@
 			background-color: black;
 		}
 
-		.button {
+		#button {
 			position: absolute;
 			top: 0;
 			left: 0;
 			height: 100%;
 			width: 100%;
 			background-color: red;
-			opacity: 0.2;
+			opacity: 0;
 			z-index: 100;
 		}
 
-		.avatar {
+		#avatar {
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -58,10 +66,11 @@
 			height: 50%;
 			width: 50%;
 			background-color: blue;
+			visibility: hidden;
 			z-index: 1;
 		}
 
-		.symbol {
+		#symbol {
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -70,16 +79,26 @@
 			height: 70%;
 			width: 70%;
 			background-color: orange;
-			opacity: 0.5;
+			opacity: 0;
 			z-index: 2;
+		}
+
+		#status {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+			z-index: 3;
 		}
 	</style>
 </head>
 
 <body onload="init()">
-	<div class="button" onclick="doThing()"></div>
-	<div class="avatar"></div>
-	<div class="symbol"></div>
+	<div id="button" onclick="doThing()"></div>
+	<div id="avatar"></div>
+	<div id="symbol"></div>
+	<div id="status">Initializing...</div>
 </body>
 
 </html>
