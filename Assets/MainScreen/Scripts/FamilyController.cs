@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class FamilyController : MonoBehaviour
 {
-    //private List<GameObject> players;
-    private Dictionary<int, GameObject> familyMembers;
+    public float listenTime = 2.5f;
+
+    private Dictionary<int, PlayerMovement> familyMembers;
+    private uint playerTapCount;
+    private float listenStartTime;
 
     private void Awake()
     {
-        familyMembers = new Dictionary<int, GameObject>();
+        familyMembers = new Dictionary<int, PlayerMovement>();
+        playerTapCount = 0;
+        listenStartTime = 0;
+
+        Screen.onPlayerTap += OnPlayerTap;
     }
 
     // Start is called before the first frame update
@@ -18,10 +25,18 @@ public class FamilyController : MonoBehaviour
         
     }
 
+    private void OnDestroy()
+    {
+        Screen.onPlayerTap -= OnPlayerTap;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        if(Time.time >= listenStartTime)
+        {
+            playerTapCount = 0;
+        }
     }
 
     public void AddPlayer(int deviceId, GameObject playerPrefab)
@@ -30,7 +45,7 @@ public class FamilyController : MonoBehaviour
 
 
         GameObject player = Instantiate(playerPrefab, transform);
-        familyMembers.Add(deviceId, player);
+        familyMembers.Add(deviceId, player.GetComponent<PlayerMovement>());
         player.transform.position = new Vector3(
             Random.Range(map.minMapExtents.x, map.maxMapExtents.x), 
             0, 
@@ -44,16 +59,36 @@ public class FamilyController : MonoBehaviour
         return familyMembers.Remove(deviceId);
     }
 
-    public void CalculateDestination()
+    private void OnPlayerTap(int deviceId)
     {
-        //Vector3 destination = Vector3.zero;
-        //for(int i = 0; i < players.Count; ++i)
-        //{
-        //    destination += players[i].transform.position;
-        //}
-        //destination /= players.Count;
-        //destination.y = 0;
-        //for (int i = 0; i < players.Count; ++i)
-        //    players[i].GetComponent<PlayerMovement>().SetDestination(destination);
+        if (!familyMembers.ContainsKey(deviceId))
+            return;
+
+        //Don't allow taps when moving
+        if (familyMembers[0].moving)
+            return;
+
+        if(playerTapCount == 0)
+            listenStartTime = Time.time;
+        playerTapCount++;
+
+        if(playerTapCount == familyMembers.Count)
+        {
+            playerTapCount = 0;
+            CalculateDestination();
+        }
+    }
+
+    private void CalculateDestination()
+    {
+        Vector3 destination = Vector3.zero;
+        for (int i = 0; i < familyMembers.Count; ++i)
+        {
+            destination += familyMembers[i].transform.position;
+        }
+        destination /= familyMembers.Count;
+        destination.y = 0;
+        for (int i = 0; i < familyMembers.Count; ++i)
+            familyMembers[i].GetComponent<PlayerMovement>().SetDestination(destination);
     }
 }

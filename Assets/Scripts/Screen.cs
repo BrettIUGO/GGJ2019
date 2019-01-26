@@ -14,10 +14,14 @@ public class Screen : MonoBehaviour
     public delegate void OnPlayerDisconnect(int deviceId);
     public static OnPlayerDisconnect onPlayerDisconnect;
 
+    public delegate void OnPlayerTap(int deviceId);
+    public static OnPlayerTap onPlayerTap;
+
     private void OnDestroy()
     {
         onPlayerConnect = null;
         onPlayerDisconnect = null;
+        onPlayerTap = null;
     }
 
     // Start is called before the first frame update
@@ -31,6 +35,8 @@ public class Screen : MonoBehaviour
 	void OnMessage(int deviceId, JToken data)
 	{
 		Debug.Log("Got message of type: " + data["type"] + " from " + deviceId);
+        if (onPlayerTap != null)
+            onPlayerTap(deviceId);
 	}
 
 	void OnConnect(int deviceId)
