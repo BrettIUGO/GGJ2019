@@ -4,26 +4,41 @@ using UnityEngine;
 
 public class DebugController : MonoBehaviour
 {
-    //private GameObject[] players;
+    public delegate void OnDebugAddPlayer(int deviceId);
+    public static OnDebugAddPlayer onDebugAddPlayer;
+
+    public delegate void OnDebugRemovePlayer(int deviceId);
+    public static OnDebugRemovePlayer onDebugRemovePlayer;
+
+    private static int nextDeviceId = 1000;
+    private List<int> players;
 
     private void Awake()
     {
-        //players = GameObject.FindGameObjectsWithTag("Player");
+        players = new List<int>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnDestroy()
     {
-        //Vector3 destination = new Vector3(15, 0, -17);
-        //for (int i = 0; i < players.Length; ++i)
-        //    players[i].GetComponent<PlayerMovement>().SetDestination(destination);
-
-        GameObject.Find("Families").GetComponent<FamiliesManager>().CreateFamily(5);
+        onDebugAddPlayer = null;
+        onDebugRemovePlayer = null;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClickAddPlayer()
     {
-        
+        if(onDebugAddPlayer != null)
+        {
+            players.Add(nextDeviceId);
+            onDebugAddPlayer(nextDeviceId++);
+        }
+    }
+
+    public void OnClickRemovePlayer()
+    {
+        if(onDebugRemovePlayer != null && players.Count > 0)
+        {
+            onDebugRemovePlayer(players[0]);
+            players.RemoveAt(0);
+        }
     }
 }

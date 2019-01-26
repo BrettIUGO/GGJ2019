@@ -11,8 +11,14 @@ public class FamiliesManager : MonoBehaviour
 
     private void Awake()
     {
+        families = new List<FamilyController>();
+
         Screen.onPlayerConnect += OnPlayerConnect;
         Screen.onPlayerDisconnect += OnPlayerDisconnect;
+
+        //Debug
+        //DebugController.onDebugAddPlayer += OnPlayerConnect;
+        //DebugController.onDebugRemovePlayer += OnPlayerDisconnect;
     }
 
     // Start is called before the first frame update
@@ -27,27 +33,44 @@ public class FamiliesManager : MonoBehaviour
         
     }
 
-    public void CreateFamily(uint playerCount)
+    private FamilyController CreateFamily()
     {
         GameObject familyObj = Instantiate(familyPrefab);
         familyObj.transform.parent = transform;
         FamilyController family = familyObj.GetComponent<FamilyController>();
-        for (uint i = 0; i < playerCount; ++i)
-            family.AddPlayer(playerPrefab);
+        
         if (families == null)
             families = new List<FamilyController>();
         families.Add(family);
 
-        family.CalculateDestination();
+        return family;
+    }
+
+    private FamilyController GetAvailableFamily()
+    {
+        if (families.Count == 0)
+            return CreateFamily();
+        else
+        {
+            return families[0];
+        }
     }
 
     private void OnPlayerConnect(int deviceId)
     {
-        //TODO add player
+        FamilyController family = GetAvailableFamily();
+        family.AddPlayer(deviceId, playerPrefab);
     }
 
     private void OnPlayerDisconnect(int deviceId)
     {
-        //TODO remove player
+        bool playerRemoved = false;
+        for(int i = 0; i < families.Count; ++i)
+        {
+            if (playerRemoved = families[i].RemovePlayer(deviceId))
+                    break;
+        }
+        if (!playerRemoved)
+            Debug.LogWarning(string.Format("Player {0} was not found and could not be removed!", deviceId));
     }
 }
