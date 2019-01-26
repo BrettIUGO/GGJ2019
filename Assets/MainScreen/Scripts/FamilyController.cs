@@ -33,8 +33,9 @@ public class FamilyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Time.time >= listenStartTime)
+        if(playerTapCount > 0 && Time.time - listenStartTime >= listenTime)
         {
+            Debug.Log("TIMEOUT");
             playerTapCount = 0;
         }
     }
@@ -65,15 +66,18 @@ public class FamilyController : MonoBehaviour
             return;
 
         //Don't allow taps when moving
-        if (familyMembers[0].moving)
+        if (familyMembers[deviceId].moving)
             return;
 
         if(playerTapCount == 0)
             listenStartTime = Time.time;
         playerTapCount++;
 
+        Debug.Log("TAP");
+
         if(playerTapCount == familyMembers.Count)
         {
+            Debug.Log("FAMILY MOVE");
             playerTapCount = 0;
             CalculateDestination();
         }
@@ -82,13 +86,15 @@ public class FamilyController : MonoBehaviour
     private void CalculateDestination()
     {
         Vector3 destination = Vector3.zero;
-        for (int i = 0; i < familyMembers.Count; ++i)
-        {
-            destination += familyMembers[i].transform.position;
-        }
+        Dictionary<int, PlayerMovement>.Enumerator it = familyMembers.GetEnumerator();
+        while(it.MoveNext())
+            destination += it.Current.Value.transform.position;
+        
         destination /= familyMembers.Count;
         destination.y = 0;
-        for (int i = 0; i < familyMembers.Count; ++i)
-            familyMembers[i].GetComponent<PlayerMovement>().SetDestination(destination);
+        it = familyMembers.GetEnumerator();
+        while (it.MoveNext())
+            it.Current.Value.SetDestination(destination);
+            
     }
 }

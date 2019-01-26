@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Range(0.1f, 5.0f)]
     public float moveTime = 3.0f;
     private float _moveStartTime;
 
@@ -60,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         if((transform.position - destination).magnitude > float.Epsilon)
         {
             this.destination = destination;
+            _moveStartTime = Time.time;
             _moving = true;
         }
     }
