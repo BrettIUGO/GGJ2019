@@ -5,6 +5,23 @@ using UnityEngine;
 using NDream.AirConsole;
 using Newtonsoft.Json.Linq;
 
+public struct GameMessage
+{
+    public enum MessageType {
+        FamilySequenceLength = 0,
+        PlayerStartingIndex
+    };
+
+    public MessageType type;
+    public object value;
+
+    public GameMessage(MessageType type, object value)
+    {
+        this.type = type;
+        this.value = value;
+    }
+}
+
 public class Screen : MonoBehaviour
 {
 	//Network/Game Interface Methods
@@ -57,6 +74,11 @@ public class Screen : MonoBehaviour
 		if (onPlayerConnect != null)
 			onPlayerConnect(deviceId);
 	}
+
+    public void InitPlayer(int[] sequence, int startingIndex)
+    {
+
+    }
 
 	void OnDisconnect(int deviceId)
 	{
