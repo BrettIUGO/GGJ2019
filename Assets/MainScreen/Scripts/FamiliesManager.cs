@@ -26,12 +26,6 @@ public class FamiliesManager : MonoBehaviour
         Screen.onPlayerDisconnect += OnPlayerDisconnect;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -42,6 +36,12 @@ public class FamiliesManager : MonoBehaviour
         for(int i = 0; i < playerControllers.Length; ++i)
         {
             PlayerController player = playerControllers[i];
+            if (playerControllers[i].tapConsumed)
+            {
+                //Debug.Log("Tap consumed");
+                continue;
+            }
+
             if (Time.time - playerControllers[i].lastTapTime > tapListenDuration) //Been too long since they last tapped, ignore
                 continue;
 
@@ -57,6 +57,8 @@ public class FamiliesManager : MonoBehaviour
         while(it.MoveNext())
         {
             List<PlayerController> matchingPlayers = it.Current.Value;
+            if (matchingPlayers.Count == 1)
+                continue;
             //Calculate where to go here
             Vector3 position = Vector3.zero;
             for (int i = 0; i < matchingPlayers.Count; ++i)
@@ -64,7 +66,10 @@ public class FamiliesManager : MonoBehaviour
             position /= matchingPlayers.Count;
             position.y = 0.5f;
             for (int i = 0; i < matchingPlayers.Count; ++i)
+            {
+                matchingPlayers[i].ConsumeTap();
                 matchingPlayers[i].GetComponent<PlayerMovement>().SetDestination(position);
+            }
         }
     }
 

@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField]
+    private string _currentSymbol;
     private int _currentSequenceIndex;
     private float _lastTapTime;
 
@@ -52,6 +53,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool tapConsumed
+    {
+        get
+        {
+            return _tapConsumed;
+        }
+    }
+    private bool _tapConsumed;
+
+    private void Awake()
+    {
+        _tapConsumed = false;
+    }
+
     public void SetSequenceStartIndex(int index)
     {
         _currentSequenceIndex = index;
@@ -59,10 +74,17 @@ public class PlayerController : MonoBehaviour
     
     public void Tap(int sequenceLength)
     {
+        _tapConsumed = false;
         _lastTapTime = Time.time;
-        _lastTapIndex = _currentSequenceIndex++;
+        _lastTapIndex = _currentSequenceIndex++;        
         _currentSequenceIndex = _currentSequenceIndex % sequenceLength;
         Symbol symbol = GameController.Instance.symbols[_family.sequence[_lastTapIndex]];
+        _currentSymbol = symbol.character;
         UIController.Instance.ShowSymbol(symbol.character, symbol.color, transform.position);
+    }
+
+    public void ConsumeTap()
+    {
+        _tapConsumed = true;
     }
 }
