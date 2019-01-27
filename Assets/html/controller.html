@@ -6,6 +6,8 @@
 	<title>Controller</title>
 	<script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
 	<script type="text/javascript">
+		"use strict";
+
 		var airConsole = new AirConsole();
 		var elAvatar;
 		var elStatus;
@@ -24,6 +26,8 @@
 		var tapped = false;
 		var lastTap = 0;
 		var tapCooldown = 250;
+
+		var active = false;
 
 		function init() {
 			elAvatar = document.getElementById("avatar");
@@ -49,18 +53,18 @@
 			preloadAudio();
 			preloadImages();
 
-			// alert(avatar + ', ' + JSON.stringify(sequence));
+			active = true;
 		}
 
 		function preloadAudio()
 		{
-			for(i = 0; i < notes.length; i++)
+			for(var i = 0; i < notes.length; i++)
 				audioElements[i] = new Audio("dings/" + noteSet + "/" + notes[i] + ".mp3");
 		}
 
 		function preloadImages()
 		{
-			for(i = 0; i < symbols.length; i++)
+			for(var i = 0; i < symbols.length; i++)
 			{
 				elSymbol.src = "crests/" + symbols[i][0] + ".png";
 			}
@@ -91,6 +95,9 @@
 
 		function registerTap()
 		{
+			if(!active)
+				return;
+				
 			tapped = true;
 
 			var now = new Date().getTime();
@@ -109,7 +116,7 @@
 			tapped = false;
 			lastTap = new Date().getTime();
 
-			audioIndex = symbolSequence[nextSymbol] % audioElements.length;
+			var audioIndex = symbolSequence[nextSymbol] % audioElements.length;
 			if(audioElements[audioIndex])
 			{
 				audioElements[audioIndex].pause();
@@ -119,7 +126,7 @@
 
 			airConsole.message(AirConsole.SCREEN, { type: "pulse" });
 
-			symbol = symbols[symbolSequence[nextSymbol]];
+			var symbol = symbols[symbolSequence[nextSymbol]];
 			elSymbol.src = "crests/" + symbol[0] + ".png";
 			elSymbol.style.visibility = "visible";
 			// elSymbol.style.color = rgba2css(symbol[1], symbol[2], symbol[3], 1);
