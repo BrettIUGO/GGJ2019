@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 5134739584035405763}
   m_Layer: 0
   m_Name: Bush
-  m_TagString: Untagged
+  m_TagString: MapElement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
