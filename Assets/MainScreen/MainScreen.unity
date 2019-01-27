@@ -1179,8 +1179,8 @@ Camera:
   m_GameObject: {fileID: 1812071218}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.18363205, g: 0.04013884, b: 0.20754719, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -1219,13 +1219,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1812071218}
-  m_LocalRotation: {x: 0.6819983, y: 0, z: 0, w: 0.7313538}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 25, y: 48, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 86, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1853304020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,7 +1339,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapTile: {fileID: 2460044104546910699, guid: d8d3e143588c43c4cb8729c783f9944b, type: 3}
-  mapSize: {x: 5, y: 5}
+  mapSize: {x: 8, y: 5}
+  mapIndent: 1
+  minNumElements: 5
+  maxNumElements: 16
+  elements:
+  - {fileID: 8158974838407613414, guid: 6dfe2ac3cd0f27147a523b62f4561fcb, type: 3}
+  - {fileID: 6998981783686680013, guid: 4cf75456901914a4e8a1b20110d3dfaa, type: 3}
+  - {fileID: 4618261580564095099, guid: 89925925f14163d46b89b2cb80f68dfd, type: 3}
+  mapBorderPrefab: {fileID: 8984106043495358266, guid: be5387891326fe44a9da1a301069e958,
+    type: 3}
 --- !u!1 &2137932887
 GameObject:
   m_ObjectHideFlags: 0
