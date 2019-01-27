@@ -117,8 +117,12 @@ public class FamiliesManager : MonoBehaviour
         if (GameController.Instance.gameOver)
             return;
 
+        GameObject player = Instantiate(playerPrefab, transform);
+        var playerController = player.GetComponent<PlayerController>();
+        playerController.deviceId = deviceId;
+
         FamilyController family = GetAvailableFamily();
-        family.AddPlayer(deviceId, playerPrefab);
+        family.AddPlayer(deviceId, player);
         playerControllers = GetComponentsInChildren<PlayerController>();
     }
 

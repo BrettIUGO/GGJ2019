@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
     private int _currentSequenceIndex;
     private float _lastTapTime;
 
+    private ScreenController screen;
+
     public float lastTapTime
     {
         get
@@ -65,6 +67,13 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _tapConsumed = false;
+        screen = GameObject.Find("AirConsole").GetComponent<ScreenController>();
+        ScreenController.onPlayerTap += OnPlayerTap;
+    }
+
+    private void OnDestroy()
+    {
+        ScreenController.onPlayerTap -= OnPlayerTap;
     }
 
     public void SetSequenceStartIndex(int index)
@@ -72,12 +81,25 @@ public class PlayerController : MonoBehaviour
         _currentSequenceIndex = index;
     }
     
-    public void Tap(int sequenceLength)
+    public void InitSequence(int[] sequence, int startingIndex)
+    {
+        screen.InitSequence(_deviceId, sequence, startingIndex);
+    }
+
+    private void OnPlayerTap(int deviceId)
+    {
+        if(deviceId != _deviceId)
+            return;
+            
+        Tap();
+    }
+
+    public void Tap()
     {
         _tapConsumed = false;
         _lastTapTime = Time.time;
         _lastTapIndex = _currentSequenceIndex++;        
-        _currentSequenceIndex = _currentSequenceIndex % sequenceLength;
+        _currentSequenceIndex = _currentSequenceIndex % _family.sequence.Length;
         Symbol symbol = GameController.Instance.symbols[_family.sequence[_lastTapIndex]];
         _currentSymbol = symbol.character;
         UIController.Instance.ShowSymbol(symbol.character, symbol.color, transform.position);
