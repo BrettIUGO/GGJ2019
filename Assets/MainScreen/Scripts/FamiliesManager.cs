@@ -50,7 +50,7 @@ public class FamiliesManager : MonoBehaviour
                 continue;
 
             //Find which symbol they signalled and store similar players together
-            int symbolIndex = player.seqence[player.currentSequenceIndex];
+            int symbolIndex = player.seqence[player.lastTapIndex];
             if (!matchingSymbols.ContainsKey(symbolIndex))
                 matchingSymbols[symbolIndex] = new List<PlayerController>();
             matchingSymbols[symbolIndex].Add(player);                

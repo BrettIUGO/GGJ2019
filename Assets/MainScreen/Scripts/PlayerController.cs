@@ -43,24 +43,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private int _lastTapIndex;
+    public int lastTapIndex
+    {
+        get
+        {
+            return _lastTapIndex;
+        }
+    }
+
     public void SetSequenceStartIndex(int index)
     {
         _currentSequenceIndex = index;
     }
 
-    public int currentSequenceIndex
-    {
-        get
-        {
-            return _currentSequenceIndex;
-        }
-    }
+    //public int currentSequenceIndex
+    //{
+    //    get
+    //    {
+    //        return _currentSequenceIndex;
+    //    }
+    //}
 
-    public int Tap(int sequenceLength)
+    public void Tap(int sequenceLength)
     {
         _lastTapTime = Time.time;
-        int index = _currentSequenceIndex++;
+        _lastTapIndex = _currentSequenceIndex++;
         _currentSequenceIndex = _currentSequenceIndex % sequenceLength;
-        return _currentSequenceIndex;
+        Symbol symbol = GameController.Instance.symbols[_family.sequence[_lastTapIndex]];
+        UIController.Instance.ShowSymbol(symbol.character, symbol.color, transform.position);
     }
 }
