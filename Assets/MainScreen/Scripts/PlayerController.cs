@@ -53,12 +53,12 @@ public class PlayerController : MonoBehaviour
     }
     private bool _tapConsumed;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         _tapConsumed = false;
     }
 
-    protected void OnDestroy()
+    protected virtual void OnDestroy()
     {
 
     }

@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
 {
     [Range(0.1f, 5.0f)]
     public float moveTime = 3.0f;
-    private float _moveStartTime;
 
     [Range(1.0f, 25.0f)]
     public float forceModifier = 8.0f;
@@ -19,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _moveStartTime = 0;
         rb = GetComponent<Rigidbody>();
         touching = false;
     }

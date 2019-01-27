@@ -16,15 +16,14 @@ public class HumanPlayerController : PlayerController
 
     private ScreenController screen;
 
-    protected void Awake()
+    protected override void Awake()
     {
-
         screen = GameObject.Find("AirConsole").GetComponent<ScreenController>();
         ScreenController.onPlayerTap += OnPlayerTap;
         base.Awake();
     }
 
-    protected void OnDestroy()
+    protected override void OnDestroy()
     {
         ScreenController.onPlayerTap -= OnPlayerTap;
         base.OnDestroy();
