@@ -163,9 +163,10 @@ public class FamilyController : MonoBehaviour
     public Vector3 GetCentralPosition()
     {
         Vector3 position = Vector3.zero;
-        for(int i = 0; i < familyMembers.Count; ++i)
+         Dictionary<int, Player>.Enumerator it = familyMembers.GetEnumerator();
+        while(it.MoveNext())
         {
-            position += familyMembers[i].transform.position;
+            position += it.Current.Value.transform.position;
         }
         position /= familyMembers.Count;
         return position;

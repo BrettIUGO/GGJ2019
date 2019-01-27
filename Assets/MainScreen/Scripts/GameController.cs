@@ -87,6 +87,7 @@ public class GameController : MonoBehaviour
             Camera.main.transform.position = Camera.main.transform.position + delta;
             Camera.main.transform.LookAt(centralPosition);
             gameOverScreen.SetActive(true);
+            gameOverScreen.GetComponent<AudioSource>().Play();
         }
     }
 }

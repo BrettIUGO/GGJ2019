@@ -23,6 +23,7 @@ public class AIPlayerController : PlayerController
     {
         if(active)
         {
+            active = !GameController.Instance.gameOver;
             var now = Time.fixedTime;
             if(now >= (lastTapTime + tapDelay))
             {
