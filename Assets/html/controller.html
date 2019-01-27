@@ -49,6 +49,11 @@
 			}
 		}
 
+		function rgba2css(r, g, b, a)
+		{
+			return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+		}
+
 		function doThing() {
 			audioElements[nextAudio].pause();
 			audioElements[nextAudio].currentTime = 0;
@@ -59,7 +64,7 @@
 
 			symbol = symbols[symbolSequence[nextSymbol]];
 			elSymbol.textContent = symbol[0];
-			elSymbol.style.color = "rgba(" + symbol[1], ",", symbol[2], ",", symbol[3], ",0.7)";
+			elSymbol.style.color = rgba2css(symbol[1], symbol[2], symbol[3], 1);
 
 			nextSymbol = (nextSymbol + 1) % symbolSequence.length;
 		}
@@ -108,7 +113,9 @@
 		}
 
 		#symbol {
+			font-family: "Liberation Serif", Cambria, "Hoefler Text", Utopia, "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;
 			font-size: 70vmin;
+			text-shadow: 1vmin 1vmin rgba(0,0,0,0.7);
 		}
 
 		#status {
