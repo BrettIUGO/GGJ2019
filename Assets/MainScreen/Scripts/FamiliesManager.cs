@@ -5,6 +5,7 @@ using UnityEngine;
 public class FamiliesManager : MonoBehaviour
 {
     public GameObject playerPrefab;
+    public GameObject computerPrefab;
     public GameObject familyPrefab;
     [Range(2, 100)]
     public int maxFamilyMemberCount = 20;
@@ -15,6 +16,7 @@ public class FamiliesManager : MonoBehaviour
     private PlayerController[] playerControllers;
 
     private Dictionary<int, List<PlayerController>> matchingSymbols;
+    private bool aiInitialized = false;
 
     private void Awake()
     {
@@ -118,8 +120,24 @@ public class FamiliesManager : MonoBehaviour
             return;
 
         GameObject player = Instantiate(playerPrefab, transform);
-        var playerController = player.GetComponent<PlayerController>();
+        var playerController = player.GetComponent<HumanPlayerController>();
         playerController.deviceId = deviceId;
+
+        FamilyController family = GetAvailableFamily();
+        family.AddPlayer(deviceId, player);
+        playerControllers = GetComponentsInChildren<PlayerController>();
+
+        if(!aiInitialized)
+        {
+            AddAIPlayer(100001);
+            AddAIPlayer(100002);
+            aiInitialized = true;
+        }
+    }
+
+    public void AddAIPlayer(int deviceId)
+    {
+        GameObject player = Instantiate(computerPrefab, transform);
 
         FamilyController family = GetAvailableFamily();
         family.AddPlayer(deviceId, player);

@@ -5,15 +5,6 @@ using NDream.AirConsole;
 
 public class PlayerController : MonoBehaviour
 {
-    public int deviceId
-    {
-        set
-        {
-            _deviceId = value;
-        }
-    }
-    private int _deviceId;
-
     private FamilyController _family;
     public FamilyController family
     {
@@ -35,8 +26,6 @@ public class PlayerController : MonoBehaviour
     private string _currentSymbol;
     private int _currentSequenceIndex;
     private float _lastTapTime;
-
-    private ScreenController screen;
 
     public float lastTapTime
     {
@@ -64,16 +53,14 @@ public class PlayerController : MonoBehaviour
     }
     private bool _tapConsumed;
 
-    private void Awake()
+    protected void Awake()
     {
         _tapConsumed = false;
-        screen = GameObject.Find("AirConsole").GetComponent<ScreenController>();
-        ScreenController.onPlayerTap += OnPlayerTap;
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
-        ScreenController.onPlayerTap -= OnPlayerTap;
+
     }
 
     public void SetSequenceStartIndex(int index)
@@ -81,17 +68,9 @@ public class PlayerController : MonoBehaviour
         _currentSequenceIndex = index;
     }
     
-    public void InitSequence(int[] sequence, int startingIndex)
+    public virtual void InitSequence(int[] sequence, int startingIndex)
     {
-        screen.InitSequence(_deviceId, sequence, startingIndex);
-    }
 
-    private void OnPlayerTap(int deviceId)
-    {
-        if(deviceId != _deviceId)
-            return;
-            
-        Tap();
     }
 
     public void Tap()

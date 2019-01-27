@@ -296,6 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5424376580470456308, guid: 54fed3d1624ceda478d0f69759436c39,
     type: 3}
+  computerPrefab: {fileID: 5386007550585556999, guid: 8852b72752f6b40a08e51faedfb90d60,
+    type: 3}
   familyPrefab: {fileID: 8039552396798285414, guid: 6bdd049d3ef846046ac6548636c7cb52,
     type: 3}
   maxFamilyMemberCount: 20
