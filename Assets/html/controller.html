@@ -43,6 +43,7 @@
 			noteSet = Math.floor(Math.random() * noteSetCount);
 
 			preloadAudio();
+			preloadImages();
 
 			// alert(avatar + ', ' + JSON.stringify(sequence));
 		}
@@ -51,6 +52,15 @@
 		{
 			for(i = 0; i < notes.length; i++)
 				audioElements[i] = new Audio("dings/" + noteSet + "/" + notes[i] + ".mp3");
+		}
+
+		function preloadImages()
+		{
+			for(i = 0; i < symbols.length; i++)
+			{
+				elSymbol.src = "crests/" + symbols[i][0] + ".png";
+			}
+			elSymbol.src = "";
 		}
 
 		airConsole.onMessage = function (deviceId, message) {
@@ -85,6 +95,7 @@
 
 			symbol = symbols[symbolSequence[nextSymbol]];
 			elSymbol.src = "crests/" + symbol[0] + ".png";
+			elSymbol.style.visibility = "visible";
 			// elSymbol.style.color = rgba2css(symbol[1], symbol[2], symbol[3], 1);
 
 			nextSymbol = (nextSymbol + 1) % symbolSequence.length;
@@ -139,6 +150,7 @@
 		#symbol {
 			width: 100%;
 			height: auto;
+			visibility: hidden;
 		}
 
 		#status {
