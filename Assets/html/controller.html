@@ -110,9 +110,12 @@
 			lastTap = new Date().getTime();
 
 			audioIndex = symbolSequence[nextSymbol] % audioElements.length;
-			audioElements[audioIndex].pause();
-			audioElements[audioIndex].currentTime = 0;
-			audioElements[audioIndex].play();
+			if(audioElements[audioIndex])
+			{
+				audioElements[audioIndex].pause();
+				audioElements[audioIndex].currentTime = 0;
+				audioElements[audioIndex].play();
+			}
 
 			airConsole.message(AirConsole.SCREEN, { type: "pulse" });
 
