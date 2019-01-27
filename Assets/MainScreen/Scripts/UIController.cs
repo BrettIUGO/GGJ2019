@@ -40,7 +40,6 @@ public class UIController : MonoBehaviour
         SymbolIndicator symbol;
         symbol.startTime = Time.time;
         symbol.obj = Instantiate(symbolTextPrefab, transform);
-        //position.y = 0;
         symbol.obj.transform.position = position;
         Vector3 localPosition = symbol.obj.GetComponent<RectTransform>().localPosition;
         localPosition.z = 0;

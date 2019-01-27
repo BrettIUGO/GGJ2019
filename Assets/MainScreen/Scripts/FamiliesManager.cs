@@ -24,10 +24,6 @@ public class FamiliesManager : MonoBehaviour
 
         Screen.onPlayerConnect += OnPlayerConnect;
         Screen.onPlayerDisconnect += OnPlayerDisconnect;
-
-        //Debug
-        //DebugController.onDebugAddPlayer += OnPlayerConnect;
-        //DebugController.onDebugRemovePlayer += OnPlayerDisconnect;
     }
 
     // Start is called before the first frame update

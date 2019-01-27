@@ -17,27 +17,10 @@ struct Player
 
 public class FamilyController : MonoBehaviour
 {
-    //public float listenTime = 2.5f;
     [Range(3, 10)]
     public int defaultSequenceLength = 6;
 
     private Dictionary<int, Player> familyMembers;
-    //private bool isFamiliyListening
-    //{
-    //    get
-    //    {
-    //        for(int i = 0; i < defaultSequenceLength; ++i)
-    //        {
-    //            if (sequenceTaps[i] > 0)
-    //                return true;
-    //        }
-    //        return false;
-    //    }
-    //}
-    //private float listenStartTime;
-
-    //private uint sequenceLength;
-    //private uint[] sequenceTaps;
 
     private Screen screen;
 
@@ -55,8 +38,6 @@ public class FamilyController : MonoBehaviour
     private void Awake()
     {
         familyMembers = new Dictionary<int, Player>();
-        //playerTapCount = 0;
-        //listenStartTime = 0;
 
         Screen.onPlayerTap += OnPlayerTap;
 
@@ -98,9 +79,6 @@ public class FamilyController : MonoBehaviour
         {
             _sequence[i] = Random.Range(0, GameController.Instance.symbols.Length - 1);
         }
-
-
-        //sequenceTaps = new uint[sequenceLength];
     }
 
     public void AddPlayer(int deviceId, GameObject playerPrefab)
@@ -142,40 +120,5 @@ public class FamilyController : MonoBehaviour
             return;
 
         familyMembers[deviceId].game.Tap(defaultSequenceLength);
-
-        //if(!isFamiliyListening)
-        //    listenStartTime = Time.time;
-        //sequenceTaps[familyMembers[deviceId].game.GetCurrentSequenceIndex(defaultSequenceLength)]++;
-        ////playerTapCount++;
-
-        //for(int i = 0; i < defaultSequenceLength; ++i)
-        //{
-        //    if(sequenceTaps[i] == familyMembers.Count)
-        //    {
-        //        CalculateDestination(); //Everybody is on the same index!
-        //        break;
-        //    }
-        //}
-
-        //if(playerTapCount == familyMembers.Count)
-        //{
-        //    playerTapCount = 0;
-        //    CalculateDestination();
-        //}
     }
-
-    //private void CalculateDestination()
-    //{
-    //    Vector3 destination = Vector3.zero;
-    //    Dictionary<int, Player>.Enumerator it = familyMembers.GetEnumerator();
-    //    while(it.MoveNext())
-    //        destination += it.Current.Value.transform.position;
-        
-    //    destination /= familyMembers.Count;
-    //    destination.y = 0;
-    //    it = familyMembers.GetEnumerator();
-    //    while (it.MoveNext())
-    //        it.Current.Value.movement.SetDestination(destination);
-            
-    //}
 }

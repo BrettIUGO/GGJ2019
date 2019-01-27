@@ -56,15 +56,7 @@ public class PlayerController : MonoBehaviour
     {
         _currentSequenceIndex = index;
     }
-
-    //public int currentSequenceIndex
-    //{
-    //    get
-    //    {
-    //        return _currentSequenceIndex;
-    //    }
-    //}
-
+    
     public void Tap(int sequenceLength)
     {
         _lastTapTime = Time.time;
