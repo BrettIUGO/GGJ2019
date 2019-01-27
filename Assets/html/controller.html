@@ -26,8 +26,8 @@
 			audioElements[1] = audioElements[0].cloneNode();
 		}
 
-		function initController(avatar, sequence, index, sym) {
-			elAvatar.style.backgroundColor = avatar;
+		function initController(avatar, sequence, index, sym, color) {
+			elAvatar.style.backgroundColor = rgba2css(color[0], color[1], color[2], 1);
 			elAvatar.style.visibility = "visible";
 
 			elStatus.textContent = '';
@@ -44,7 +44,15 @@
 			switch (message.type) {
 				case "init":
 					if (deviceId == AirConsole.SCREEN)
-						initController(message.data.avatar, message.data.sequence, message.data.index, message.data.symbols);
+					{
+						initController(
+							message.data.avatar,
+							message.data.sequence,
+							message.data.index,
+							message.data.symbols,
+							message.data.color
+						);
+					}
 					break;
 			}
 		}
