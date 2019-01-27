@@ -21,6 +21,10 @@
 		var noteSetCount = 6;
 		var noteSet;
 
+		var tapped = false;
+		var lastTap = 0;
+		var tapCooldown = 250;
+
 		function init() {
 			elAvatar = document.getElementById("avatar");
 			elStatus = document.getElementById("status");
@@ -85,7 +89,26 @@
 			return "rgba(" + r + "," + g + "," + b + "," + a + ")";
 		}
 
-		function doThing() {
+		function registerTap()
+		{
+			tapped = true;
+
+			var now = new Date().getTime();
+			var wait = (lastTap + tapCooldown) - now;
+
+			if(wait <= 0)
+				handleTap();
+			else
+				setTimeout(handleTap, wait);
+		}
+
+		function handleTap() {
+			if(!tapped)
+				return;
+
+			tapped = false;
+			lastTap = new Date().getTime();
+
 			audioIndex = symbolSequence[nextSymbol] % audioElements.length;
 			audioElements[audioIndex].pause();
 			audioElements[audioIndex].currentTime = 0;
@@ -165,7 +188,7 @@
 </head>
 
 <body onload="init()">
-	<div id="button" onclick="doThing()"></div>
+	<div id="button" onclick="registerTap()"></div>
 	<div id="avatar"></div>
 	<div id="symbol-container"><img id="symbol" src=""></img></div>
 	<div id="status">Initializing...</div>
