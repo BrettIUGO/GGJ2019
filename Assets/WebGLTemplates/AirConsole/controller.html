@@ -21,6 +21,10 @@
 		var noteSetCount = 6;
 		var noteSet;
 
+		var tapped = false;
+		var lastTap = 0;
+		var tapCooldown = 250;
+
 		function init() {
 			elAvatar = document.getElementById("avatar");
 			elStatus = document.getElementById("status");
@@ -43,6 +47,7 @@
 			noteSet = Math.floor(Math.random() * noteSetCount);
 
 			preloadAudio();
+			preloadImages();
 
 			// alert(avatar + ', ' + JSON.stringify(sequence));
 		}
@@ -51,6 +56,15 @@
 		{
 			for(i = 0; i < notes.length; i++)
 				audioElements[i] = new Audio("dings/" + noteSet + "/" + notes[i] + ".mp3");
+		}
+
+		function preloadImages()
+		{
+			for(i = 0; i < symbols.length; i++)
+			{
+				elSymbol.src = "crests/" + symbols[i][0] + ".png";
+			}
+			elSymbol.src = "";
 		}
 
 		airConsole.onMessage = function (deviceId, message) {
@@ -75,7 +89,26 @@
 			return "rgba(" + r + "," + g + "," + b + "," + a + ")";
 		}
 
-		function doThing() {
+		function registerTap()
+		{
+			tapped = true;
+
+			var now = new Date().getTime();
+			var wait = (lastTap + tapCooldown) - now;
+
+			if(wait <= 0)
+				handleTap();
+			else
+				setTimeout(handleTap, wait);
+		}
+
+		function handleTap() {
+			if(!tapped)
+				return;
+
+			tapped = false;
+			lastTap = new Date().getTime();
+
 			audioIndex = symbolSequence[nextSymbol] % audioElements.length;
 			audioElements[audioIndex].pause();
 			audioElements[audioIndex].currentTime = 0;
@@ -85,6 +118,7 @@
 
 			symbol = symbols[symbolSequence[nextSymbol]];
 			elSymbol.src = "crests/" + symbol[0] + ".png";
+			elSymbol.style.visibility = "visible";
 			// elSymbol.style.color = rgba2css(symbol[1], symbol[2], symbol[3], 1);
 
 			nextSymbol = (nextSymbol + 1) % symbolSequence.length;
@@ -139,6 +173,7 @@
 		#symbol {
 			width: 100%;
 			height: auto;
+			visibility: hidden;
 		}
 
 		#status {
@@ -153,7 +188,7 @@
 </head>
 
 <body onload="init()">
-	<div id="button" onclick="doThing()"></div>
+	<div id="button" onclick="registerTap()"></div>
 	<div id="avatar"></div>
 	<div id="symbol-container"><img id="symbol" src=""></img></div>
 	<div id="status">Initializing...</div>
