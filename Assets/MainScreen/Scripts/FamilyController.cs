@@ -75,9 +75,22 @@ public class FamilyController : MonoBehaviour
     private void GenerateSequence()
     {
         _sequence = new int[defaultSequenceLength];
+
+        int[] shuffledSymbolIndices = new int[GameController.Instance.symbols.Length];
+        for (int i = 0; i < shuffledSymbolIndices.Length; ++i)
+            shuffledSymbolIndices[i] = i;
+        //Shuffle indices
+        for(int i = shuffledSymbolIndices.Length - 1; i > 0; --i)
+        {
+            int j = Random.Range(0, i);
+            int oldI = shuffledSymbolIndices[i];
+            shuffledSymbolIndices[i] = shuffledSymbolIndices[j];
+            shuffledSymbolIndices[j] = oldI;
+        }
+
         for(int i = 0; i < defaultSequenceLength; ++i)
         {
-            _sequence[i] = Random.Range(0, GameController.Instance.symbols.Length - 1);
+            _sequence[i] = shuffledSymbolIndices[i];//Random.Range(0, GameController.Instance.symbols.Length - 1);
         }
     }
 
@@ -115,9 +128,9 @@ public class FamilyController : MonoBehaviour
         if (!familyMembers.ContainsKey(deviceId))
             return;
 
-        //Don't allow taps when moving
-        if (familyMembers[deviceId].movement.moving)
-            return;
+        ////Don't allow taps when moving
+        //if (familyMembers[deviceId].movement.moving)
+        //    return;
 
         familyMembers[deviceId].game.Tap(defaultSequenceLength);
     }
