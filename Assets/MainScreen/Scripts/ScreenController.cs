@@ -22,7 +22,7 @@ public struct GameMessage
     }
 }
 
-public class Screen : MonoBehaviour
+public class ScreenController : MonoBehaviour
 {
 	//Network/Game Interface Methods
 	public delegate void OnPlayerConnect(int deviceId);

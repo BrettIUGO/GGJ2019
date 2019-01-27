@@ -29,7 +29,7 @@ public class FamilyController : MonoBehaviour
 
     private Dictionary<int, Player> familyMembers;
 
-    private Screen screen;
+    private ScreenController screen;
 
     public int[] sequence
     {
@@ -55,9 +55,9 @@ public class FamilyController : MonoBehaviour
     {
         familyMembers = new Dictionary<int, Player>();
 
-        Screen.onPlayerTap += OnPlayerTap;
+        ScreenController.onPlayerTap += OnPlayerTap;
 
-        screen = GameObject.Find("AirConsole").GetComponent<Screen>();
+        screen = GameObject.Find("AirConsole").GetComponent<ScreenController>();
 
         timeAtLastPointCalculation = -timePerPointCalculation;
 
@@ -72,7 +72,7 @@ public class FamilyController : MonoBehaviour
 
     private void OnDestroy()
     {
-        Screen.onPlayerTap -= OnPlayerTap;
+        ScreenController.onPlayerTap -= OnPlayerTap;
     }
 
     // Update is called once per frame
