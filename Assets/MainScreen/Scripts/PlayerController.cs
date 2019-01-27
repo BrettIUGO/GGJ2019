@@ -75,6 +75,9 @@ public class PlayerController : MonoBehaviour
 
     public void Tap()
     {
+        if (GameController.Instance.gameOver)
+            return;
+
         _tapConsumed = false;
         _lastTapTime = Time.time;
         _lastTapIndex = _currentSequenceIndex++;        
