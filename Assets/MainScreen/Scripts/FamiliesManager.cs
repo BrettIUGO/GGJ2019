@@ -109,6 +109,9 @@ public class FamiliesManager : MonoBehaviour
 
     private void OnPlayerConnect(int deviceId)
     {
+        if (GameController.Instance.gameOver)
+            return;
+
         FamilyController family = GetAvailableFamily();
         family.AddPlayer(deviceId, playerPrefab);
         playerControllers = GetComponentsInChildren<PlayerController>();

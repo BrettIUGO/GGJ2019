@@ -20,6 +20,13 @@ public class FamilyController : MonoBehaviour
     [Range(3, 10)]
     public int defaultSequenceLength = 6;
 
+    [Range(0.1f, 10.0f)]
+    public float detectionRange = 3;
+
+    [Range(0.1f, 5.0f)]
+    public float timePerPointCalculation = 1.0f;
+    private float timeAtLastPointCalculation;
+
     private Dictionary<int, Player> familyMembers;
 
     private Screen screen;
@@ -35,6 +42,15 @@ public class FamilyController : MonoBehaviour
 
     private FamilyController family;
 
+    public uint points
+    {
+        get
+        {
+            return _points;
+        }
+    }
+    private uint _points;
+
     private void Awake()
     {
         familyMembers = new Dictionary<int, Player>();
@@ -42,6 +58,8 @@ public class FamilyController : MonoBehaviour
         Screen.onPlayerTap += OnPlayerTap;
 
         screen = GameObject.Find("AirConsole").GetComponent<Screen>();
+
+        timeAtLastPointCalculation = -timePerPointCalculation;
 
         GenerateSequence();
     }
@@ -60,8 +78,33 @@ public class FamilyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameController.Instance.gameOver)
+            return;
 
-        //TODO: Win condition here
+        if (Time.time - timeAtLastPointCalculation >= timePerPointCalculation && familyMembers.Count > 1)
+        {
+            timeAtLastPointCalculation = Time.time;
+            Dictionary<int, Player>.Enumerator it = familyMembers.GetEnumerator();
+            int playerIndex = 1;
+            while (it.MoveNext())
+            {
+                Dictionary<int, Player>.Enumerator jt = familyMembers.GetEnumerator();
+                for (int i = 0; i < playerIndex; ++i)
+                    jt.MoveNext();
+                playerIndex++;
+                while (jt.MoveNext())
+                {
+                    if (it.Current.Key == jt.Current.Key)
+                        continue;
+                    if ((it.Current.Value.transform.position - jt.Current.Value.transform.position).magnitude < detectionRange)
+                    {
+                        _points++;
+                        GameController.Instance.OnFamilyPointsUpdated(this);
+                        //TODO add effect
+                    }
+                }
+            }
+        }
     }
 
     public int PlayerCount
@@ -90,7 +133,7 @@ public class FamilyController : MonoBehaviour
 
         for(int i = 0; i < defaultSequenceLength; ++i)
         {
-            _sequence[i] = shuffledSymbolIndices[i];//Random.Range(0, GameController.Instance.symbols.Length - 1);
+            _sequence[i] = shuffledSymbolIndices[i];
         }
     }
 
@@ -128,10 +171,17 @@ public class FamilyController : MonoBehaviour
         if (!familyMembers.ContainsKey(deviceId))
             return;
 
-        ////Don't allow taps when moving
-        //if (familyMembers[deviceId].movement.moving)
-        //    return;
-
         familyMembers[deviceId].game.Tap(defaultSequenceLength);
+    }
+
+    public Vector3 GetCentralPosition()
+    {
+        Vector3 position = Vector3.zero;
+        for(int i = 0; i < familyMembers.Count; ++i)
+        {
+            position += familyMembers[i].transform.position;
+        }
+        position /= familyMembers.Count;
+        return position;
     }
 }

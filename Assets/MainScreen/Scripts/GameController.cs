@@ -12,7 +12,21 @@ public struct Symbol
 
 public class GameController : MonoBehaviour
 {
+    [Range(1, 100)]
+    public uint pointsToWin = 10;
+
     public Symbol[] symbols;
+
+    public bool gameOver
+    {
+        get
+        {
+            return _gameOver;
+        }
+    }
+    public bool _gameOver;
+
+    private GameObject gameOverScreen;
 
     public JArray symbolsJSON
     {
@@ -34,6 +48,10 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        _gameOver = false;
+        gameOverScreen = GameObject.Find("GameOverCanvas");
+        gameOverScreen.SetActive(false);
+
         _symbolsJSON = new JArray();
         for(int i = 0; i < symbols.Length; ++i)
         {
@@ -50,5 +68,24 @@ public class GameController : MonoBehaviour
     private void OnDestroy()
     {
         _instance = null;
+    }
+
+    public void OnFamilyPointsUpdated(FamilyController family)
+    {
+        if (_gameOver) return;
+
+        Debug.Log(string.Format("Family scored. {0} points", family.points));
+
+        if(family.points >= pointsToWin)
+        {
+            //Game over!
+            _gameOver = true;
+            Vector3 centralPosition = family.GetCentralPosition();
+            Vector3 delta = centralPosition - Camera.main.transform.position;
+            delta *= 0.75f;
+            Camera.main.transform.position = Camera.main.transform.position + delta;
+            Camera.main.transform.LookAt(centralPosition);
+            gameOverScreen.SetActive(true);
+        }
     }
 }
