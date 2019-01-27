@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,8 +22,8 @@ public class FamiliesManager : MonoBehaviour
 
         matchingSymbols = new Dictionary<int, List<PlayerController>>();
 
-        Screen.onPlayerConnect += OnPlayerConnect;
-        Screen.onPlayerDisconnect += OnPlayerDisconnect;
+        ScreenController.onPlayerConnect += OnPlayerConnect;
+        ScreenController.onPlayerDisconnect += OnPlayerDisconnect;
     }
 
     // Update is called once per frame
