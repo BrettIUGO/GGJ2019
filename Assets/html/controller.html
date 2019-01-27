@@ -93,21 +93,22 @@
 			transform: translate(-50%, -50%);
 			height: 50%;
 			width: 50%;
-			background-color: blue;
 			visibility: hidden;
 			z-index: 1;
 		}
 
-		#symbol {
+		#symbol-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
 			position: absolute;
-			top: 50%;
-			left: 50%;
-			margin-right: -50%;
-			transform: translate(-50%, -50%);
-			height: 70%;
-			width: 70%;
-			font-size: 70vmin;
+			height: 100%;
+			width: 100%;
 			z-index: 2;
+		}
+
+		#symbol {
+			font-size: 70vmin;
 		}
 
 		#status {
@@ -124,7 +125,7 @@
 <body onload="init()">
 	<div id="button" onclick="doThing()"></div>
 	<div id="avatar"></div>
-	<div id="symbol"></div>
+	<div id="symbol-container"><span id="symbol"></span></div>
 	<div id="status">Initializing...</div>
 </body>
 
