@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public uint pointsToWin = 10;
 
     public Symbol[] symbols;
+    private Queue<int> shuffledSymbolIndex;
 
     public bool gameOver
     {
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour
             return _gameOver;
         }
     }
-    public bool _gameOver;
+    private bool _gameOver;
 
     private GameObject gameOverScreen;
 
@@ -89,5 +90,34 @@ public class GameController : MonoBehaviour
             gameOverScreen.SetActive(true);
             gameOverScreen.GetComponent<AudioSource>().Play();
         }
+    }
+
+    public int[] GetSymbolsForFamily()
+    {
+        if (shuffledSymbolIndex == null)
+        {
+
+            int[] shuffledSymbolIndices = new int[GameController.Instance.symbols.Length];
+            for (int i = 0; i < shuffledSymbolIndices.Length; ++i)
+                shuffledSymbolIndices[i] = i;
+            //Shuffle indices
+            for (int i = shuffledSymbolIndices.Length - 1; i > 0; --i)
+            {
+                int j = Random.Range(0, i);
+                int oldI = shuffledSymbolIndices[i];
+                shuffledSymbolIndices[i] = shuffledSymbolIndices[j];
+                shuffledSymbolIndices[j] = oldI;
+            }
+
+            shuffledSymbolIndex = new Queue<int>();
+            for (int i = 0; i < shuffledSymbolIndices.Length; ++i)
+                shuffledSymbolIndex.Enqueue(shuffledSymbolIndices[i]);
+        }
+
+        int[] familySymbols = new int[symbols.Length / 2];
+        for (int i = 0; i < familySymbols.Length; ++i)
+            familySymbols[i] = shuffledSymbolIndex.Dequeue();
+
+        return familySymbols;
     }
 }

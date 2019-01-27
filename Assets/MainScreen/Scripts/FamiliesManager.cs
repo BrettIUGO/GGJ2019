@@ -99,8 +99,8 @@ public class FamiliesManager : MonoBehaviour
             int leastMemberIndex = -1;
             for(int i = 0; i < families.Count; ++i)
             {
-                if (families[i].PlayerCount >= maxFamilyMemberCount)
-                    continue;
+                //if (families[i].PlayerCount >= maxFamilyMemberCount)
+                //    continue;
                 if(families[i].PlayerCount < leastMemberCount)
                 {
                     leastMemberCount = families[i].PlayerCount;

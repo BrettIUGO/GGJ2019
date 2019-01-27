@@ -21,16 +21,20 @@ public class AIPlayerController : PlayerController
 
     public void FixedUpdate()
     {
-        if(active)
+        if (active)
         {
-            active = !GameController.Instance.gameOver;
+
             var now = Time.fixedTime;
-            if(now >= (lastTapTime + tapDelay))
+            if (now >= (lastTapTime + tapDelay))
             {
                 Debug.Log("AI tapping at " + now);
                 Tap();
                 lastTapTime = now;
             }
         }
+        else
+            return;
+
+        active = !GameController.Instance.gameOver;
     }
 }
