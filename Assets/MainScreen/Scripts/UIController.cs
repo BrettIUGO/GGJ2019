@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
 {
     public float iconTime = 1.0f;
     public GameObject symbolTextPrefab;
+    public float startAlpha = 0.75f;
 
     private static UIController _instance;
     public static UIController Instance
@@ -24,18 +25,18 @@ public class UIController : MonoBehaviour
 
     private Queue<SymbolIndicator> symbols;
 
-    private void Awake()
+    void Awake()
     {
         _instance = this;
         symbols = new Queue<SymbolIndicator>();
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         _instance = null;
     }
 
-    public void ShowSymbol(string symbolText, Color color, Vector3 position)
+    public void ShowSymbol(Sprite symbolTexture, Color color, Vector3 position)
     {
         SymbolIndicator symbol;
         symbol.startTime = Time.time;
@@ -44,20 +45,33 @@ public class UIController : MonoBehaviour
         Vector3 localPosition = symbol.obj.GetComponent<RectTransform>().localPosition;
         localPosition.z = 0;
         symbol.obj.GetComponent<RectTransform>().localPosition = localPosition;
-        Text text = symbol.obj.GetComponent<Text>();
-        text.text = symbolText;
-        text.color = color;
+        
+        Image image = symbol.obj.GetComponent<Image>();
+        image.sprite = symbolTexture;
+        color.a = startAlpha;
+        image.color = color;
+        Debug.Log(symbolTexture.name);
+
         symbols.Enqueue(symbol);
     }
 
-    private void Update()
-    {
+    void Update()
+    {       
         for (int i = 0; i < symbols.Count; ++i)
         {
             if (Time.time - symbols.Peek().startTime > iconTime)
                 Destroy(symbols.Dequeue().obj);
             else
                 break;
+        }
+
+        Queue<SymbolIndicator>.Enumerator it = symbols.GetEnumerator();
+        while (it.MoveNext())
+        {
+            Image image = it.Current.obj.GetComponent<Image>();
+            Color color = image.color;
+            color.a = Mathf.Lerp(startAlpha, 0, (Time.time - it.Current.startTime) / iconTime);
+            image.color = color;
         }
     }
 }

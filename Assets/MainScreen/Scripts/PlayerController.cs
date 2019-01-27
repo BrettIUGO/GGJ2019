@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField]
-    private string _currentSymbol;
+    //private string _currentSymbol;
     private int _currentSequenceIndex;
     private float _lastTapTime;
 
@@ -80,8 +80,8 @@ public class PlayerController : MonoBehaviour
         _lastTapIndex = _currentSequenceIndex++;        
         _currentSequenceIndex = _currentSequenceIndex % _family.sequence.Length;
         Symbol symbol = GameController.Instance.symbols[_family.sequence[_lastTapIndex]];
-        _currentSymbol = symbol.character;
-        UIController.Instance.ShowSymbol(symbol.character, symbol.color, transform.position);
+        //_currentSymbol = symbol.character;
+        UIController.Instance.ShowSymbol(symbol.texture, symbol.color, transform.position);
     }
 
     public void ConsumeTap()

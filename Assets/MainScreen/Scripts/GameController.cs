@@ -6,7 +6,8 @@ using Newtonsoft.Json.Linq;
 [System.Serializable]
 public struct Symbol
 {
-    public string character;
+    //public string name;
+    public Sprite texture;
     public Color color;
 }
 
@@ -55,7 +56,7 @@ public class GameController : MonoBehaviour
         _symbolsJSON = new JArray();
         for(int i = 0; i < symbols.Length; ++i)
         {
-            _symbolsJSON.Add(new JArray(symbols[i].character,
+            _symbolsJSON.Add(new JArray(symbols[i].texture.name,
                 (int)(symbols[i].color.r * 255),
                 (int)(symbols[i].color.g * 255),
                 (int)(symbols[i].color.b * 255)

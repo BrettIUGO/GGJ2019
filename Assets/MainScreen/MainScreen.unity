@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1028,7 +1028,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 150
+  m_DynamicPixelsPerUnit: 100
 --- !u!223 &1579703503
 Canvas:
   m_ObjectHideFlags: 0
@@ -1115,21 +1115,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsToWin: 10
   symbols:
-  - character: "\u2724"
+  - texture: {fileID: 21300000, guid: 87d019b6a9b58ddb5b0977d55940f98d, type: 3}
     color: {r: 1, g: 0, b: 0, a: 1}
-  - character: "\u2605"
+  - texture: {fileID: 21300000, guid: 2a839ff9847b2263094bc55bca51c684, type: 3}
     color: {r: 1, g: 0.49803922, b: 0, a: 1}
-  - character: "\u2665"
+  - texture: {fileID: 21300000, guid: 044727a6e58222ef4b08ba19f649a0ab, type: 3}
     color: {r: 1, g: 1, b: 0, a: 1}
-  - character: "\u2666"
+  - texture: {fileID: 21300000, guid: 9200ebf8cbed8e6258272c0ced6679ed, type: 3}
     color: {r: 0.49803922, g: 1, b: 0, a: 1}
-  - character: "\u25A0"
+  - texture: {fileID: 21300000, guid: d6a8751a5cdba21cfb9afa2122c9b677, type: 3}
     color: {r: 0, g: 1, b: 0, a: 1}
-  - character: "\u25B2"
+  - texture: {fileID: 21300000, guid: a17232348f79caca9be0dc163074a8f8, type: 3}
     color: {r: 0, g: 0.49803922, b: 1, a: 1}
-  - character: "\u25CF"
+  - texture: {fileID: 21300000, guid: b28060e14546dbd378ba11d6cb218f54, type: 3}
     color: {r: 0.49803922, g: 0, b: 1, a: 1}
-  - character: "\u2740"
+  - texture: {fileID: 21300000, guid: 338268b3250adf4408468e5a40763758, type: 3}
     color: {r: 1, g: 0, b: 0.7490196, a: 1}
   _gameOver: 0
 --- !u!4 &1790289860
