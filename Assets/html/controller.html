@@ -12,11 +12,14 @@
 		var elSymbol;
 
 		var audioElements = [];
-		var nextAudio = 0;
 
 		var symbolSequence;
 		var symbols;
 		var nextSymbol = 0;
+
+		var notes = ["C", "D", "E", "F", "G", "A", "B"];
+		var noteSetCount = 6;
+		var noteSet;
 
 		function init() {
 			elAvatar = document.getElementById("avatar");
@@ -26,8 +29,8 @@
 			audioElements[1] = audioElements[0].cloneNode();
 		}
 
-		function initController(avatar, sequence, index, sym) {
-			elAvatar.style.backgroundColor = avatar;
+		function initController(avatar, sequence, index, sym, color) {
+			elAvatar.style.backgroundColor = rgba2css(color[0], color[1], color[2], 1);
 			elAvatar.style.visibility = "visible";
 
 			elStatus.textContent = '';
@@ -37,14 +40,32 @@
 
 			symbols = sym;
 
+			noteSet = Math.floor(Math.random() * noteSetCount);
+
+			preloadAudio();
+
 			// alert(avatar + ', ' + JSON.stringify(sequence));
+		}
+
+		function preloadAudio()
+		{
+			for(i = 0; i < notes.length; i++)
+				audioElements[i] = new Audio("dings/" + noteSet + "/" + notes[i] + ".mp3");
 		}
 
 		airConsole.onMessage = function (deviceId, message) {
 			switch (message.type) {
 				case "init":
 					if (deviceId == AirConsole.SCREEN)
-						initController(message.data.avatar, message.data.sequence, message.data.index, message.data.symbols);
+					{
+						initController(
+							message.data.avatar,
+							message.data.sequence,
+							message.data.index,
+							message.data.symbols,
+							message.data.color
+						);
+					}
 					break;
 			}
 		}
@@ -55,10 +76,10 @@
 		}
 
 		function doThing() {
-			audioElements[nextAudio].pause();
-			audioElements[nextAudio].currentTime = 0;
-			audioElements[nextAudio].play();
-			nextAudio = (nextAudio + 1) % audioElements.length;
+			audioIndex = symbolSequence[nextSymbol] % audioElements.length;
+			audioElements[audioIndex].pause();
+			audioElements[audioIndex].currentTime = 0;
+			audioElements[audioIndex].play();
 
 			airConsole.message(AirConsole.SCREEN, { type: "pulse" });
 

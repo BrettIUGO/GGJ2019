@@ -65,14 +65,14 @@ public class ScreenController : MonoBehaviour
 			onPlayerConnect(deviceId);
 	}
 
-    public void InitSequence(int deviceId, int[] sequence, int startingIndex)
+    public void InitSequence(int deviceId, int[] sequence, int startingIndex, Color color)
     {
         var message = new
         {
             type = "init",
             data = JObject.FromObject(new
             {
-                avatar = "orangered",
+                color = new JArray(color.r, color.g, color.b),
                 sequence = new JArray(sequence),
                 index = startingIndex,
                 symbols = GameController.Instance.symbolsJSON
