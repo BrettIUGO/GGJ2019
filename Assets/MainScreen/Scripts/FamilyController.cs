@@ -143,9 +143,14 @@ public class FamilyController : MonoBehaviour
 
         int startingIndex = Random.Range(0, defaultSequenceLength - 1);
         playerData.game.SetSequenceStartIndex(startingIndex);
+                       
+        Material material = new Material(player.GetComponent<MeshRenderer>().material);
+        Color color = new Color(Random.value, Random.value, Random.value, 1);
+        material.color = color;
+        player.GetComponent<MeshRenderer>().material = material;       
 
         var playerController = player.GetComponent<PlayerController>();
-        playerController.InitSequence(_sequence, startingIndex);
+        playerController.InitSequence(_sequence, startingIndex, color);
     }
 
     public bool RemovePlayer(int deviceId)

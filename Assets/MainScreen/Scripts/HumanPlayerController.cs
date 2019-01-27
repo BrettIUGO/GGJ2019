@@ -38,11 +38,11 @@ public class HumanPlayerController : PlayerController
         Tap();
     }
 
-    public override void InitSequence(int[] sequence, int startingIndex)
+    public override void InitSequence(int[] sequence, int startingIndex, Color color)
     {
-        base.InitSequence(sequence, startingIndex);
+        base.InitSequence(sequence, startingIndex, color);
         // FIXME: assign color to players and init the controller here
-        screen.InitSequence(_deviceId, sequence, startingIndex, new Color(0,0,255));
+        screen.InitSequence(_deviceId, sequence, startingIndex, color);
     }
 
 }

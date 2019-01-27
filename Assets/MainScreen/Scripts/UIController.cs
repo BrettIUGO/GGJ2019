@@ -50,7 +50,6 @@ public class UIController : MonoBehaviour
         image.sprite = symbolTexture;
         color.a = startAlpha;
         image.color = color;
-        Debug.Log(symbolTexture.name);
 
         symbols.Enqueue(symbol);
     }

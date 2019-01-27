@@ -10,9 +10,9 @@ public class AIPlayerController : PlayerController
     protected float lastTapTime = 0.0f;
     protected bool active = false;
 
-    public override void InitSequence(int[] sequence, int startingIndex)
+    public override void InitSequence(int[] sequence, int startingIndex, Color color)
     {
-        base.InitSequence(seqence, startingIndex);
+        base.InitSequence(seqence, startingIndex, color);
 
         lastTapTime = Time.time + initialTapDelay - tapDelay;
         Debug.Log("AI init setting tap time to " + lastTapTime + "... current time is " + Time.time + " + " + initialTapDelay + " - " + tapDelay);

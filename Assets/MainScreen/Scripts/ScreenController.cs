@@ -72,7 +72,7 @@ public class ScreenController : MonoBehaviour
             type = "init",
             data = JObject.FromObject(new
             {
-                color = new JArray(color.r, color.g, color.b),
+                color = new JArray(color.r * 255, color.g * 255, color.b * 255),
                 sequence = new JArray(sequence),
                 index = startingIndex,
                 symbols = GameController.Instance.symbolsJSON

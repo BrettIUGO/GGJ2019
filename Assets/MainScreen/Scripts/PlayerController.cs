@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
         _currentSequenceIndex = index;
     }
     
-    public virtual void InitSequence(int[] sequence, int startingIndex)
+    public virtual void InitSequence(int[] sequence, int startingIndex, Color color)
     {
 
     }
