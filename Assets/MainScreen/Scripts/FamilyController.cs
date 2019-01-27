@@ -29,8 +29,6 @@ public class FamilyController : MonoBehaviour
 
     private Dictionary<int, Player> familyMembers;
 
-    private ScreenController screen;
-
     public int[] sequence
     {
         get
@@ -55,10 +53,6 @@ public class FamilyController : MonoBehaviour
     {
         familyMembers = new Dictionary<int, Player>();
 
-        ScreenController.onPlayerTap += OnPlayerTap;
-
-        screen = GameObject.Find("AirConsole").GetComponent<ScreenController>();
-
         timeAtLastPointCalculation = -timePerPointCalculation;
 
         GenerateSequence();
@@ -68,11 +62,6 @@ public class FamilyController : MonoBehaviour
     void Start()
     {
         
-    }
-
-    private void OnDestroy()
-    {
-        ScreenController.onPlayerTap -= OnPlayerTap;
     }
 
     // Update is called once per frame
@@ -137,12 +126,10 @@ public class FamilyController : MonoBehaviour
         }
     }
 
-    public void AddPlayer(int deviceId, GameObject playerPrefab)
+    public void AddPlayer(int deviceId, GameObject player)
     {
         MapController map = MapController.Instance;
 
-
-        GameObject player = Instantiate(playerPrefab, transform);
         Player playerData;
         playerData.movement = player.GetComponent<PlayerMovement>();
         playerData.game = player.GetComponent<PlayerController>();
@@ -156,7 +143,9 @@ public class FamilyController : MonoBehaviour
 
         int startingIndex = Random.Range(0, defaultSequenceLength - 1);
         playerData.game.SetSequenceStartIndex(startingIndex);
-        screen.InitPlayer(deviceId, _sequence, startingIndex);
+
+        var playerController = player.GetComponent<PlayerController>();
+        playerController.InitSequence(_sequence, startingIndex);
     }
 
     public bool RemovePlayer(int deviceId)
@@ -164,14 +153,6 @@ public class FamilyController : MonoBehaviour
         if (familyMembers.ContainsKey(deviceId))
             Destroy(familyMembers[deviceId].game.gameObject);
         return familyMembers.Remove(deviceId);
-    }
-
-    private void OnPlayerTap(int deviceId)
-    {
-        if (!familyMembers.ContainsKey(deviceId))
-            return;
-
-        familyMembers[deviceId].game.Tap(defaultSequenceLength);
     }
 
     public Vector3 GetCentralPosition()

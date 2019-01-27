@@ -65,7 +65,7 @@ public class ScreenController : MonoBehaviour
 			onPlayerConnect(deviceId);
 	}
 
-    public void InitPlayer(int deviceId, int[] sequence, int startingIndex)
+    public void InitSequence(int deviceId, int[] sequence, int startingIndex)
     {
         var message = new
         {
