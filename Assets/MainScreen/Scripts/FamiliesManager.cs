@@ -11,6 +11,11 @@ public class FamiliesManager : MonoBehaviour
     public int maxFamilyMemberCount = 20;
     public float tapListenDuration = 2.5f;
 
+    public float aiMinInitialDelay = 2.0f;
+    public float aiMaxInitialDelay = 3.0f;
+    public float aiMinDelay = 0.75f;
+    public float aiMaxDelay = 1.5f;
+
     private List<FamilyController> families;
 
     private PlayerController[] playerControllers;
@@ -138,6 +143,9 @@ public class FamiliesManager : MonoBehaviour
     public void AddAIPlayer(int deviceId)
     {
         GameObject player = Instantiate(computerPrefab, transform);
+        var playerController = player.GetComponent<AIPlayerController>();
+        playerController.initialTapDelay = Random.Range(aiMinInitialDelay, aiMaxInitialDelay);
+        playerController.tapDelay = Random.Range(aiMinDelay, aiMaxDelay);
 
         FamilyController family = GetAvailableFamily();
         family.AddPlayer(deviceId, player);
