@@ -59,6 +59,8 @@ public class FamilyController : MonoBehaviour
         
     }
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -162,6 +164,21 @@ public class FamilyController : MonoBehaviour
         if (familyMembers.ContainsKey(deviceId))
             Destroy(familyMembers[deviceId].game.gameObject);
         return familyMembers.Remove(deviceId);
+    }
+
+    public int[] GetDeviceIds()
+    {
+        int[] deviceIds = new int[familyMembers.Count];
+        Dictionary<int, Player>.Enumerator it = familyMembers.GetEnumerator();
+        int i = 0;
+        while (it.MoveNext())
+        {
+            if (it.Current.Value.transform.GetComponent<AIPlayerController>())
+                deviceIds[i++] = -1;
+            else
+                deviceIds[i++] = it.Current.Key;
+        }
+        return deviceIds;
     }
 
     public Vector3 GetCentralPosition()
