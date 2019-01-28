@@ -19,6 +19,9 @@ public class GameController : MonoBehaviour
     public Symbol[] symbols;
     private Queue<int> shuffledSymbolIndex;
 
+    private Vector3 cameraOrigPosition;
+    private Quaternion cameraOrigRotation;
+
     public bool gameOver
     {
         get
@@ -53,7 +56,7 @@ public class GameController : MonoBehaviour
         _gameOver = false;
         gameOverScreen = GameObject.Find("GameOverCanvas");
         gameOverScreen.SetActive(false);
-
+                
         _symbolsJSON = new JArray();
         for(int i = 0; i < symbols.Length; ++i)
         {
@@ -65,6 +68,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        cameraOrigPosition = Camera.main.transform.position;
+        cameraOrigRotation = Camera.main.transform.rotation;
+    }
 
 
     private void OnDestroy()
@@ -89,6 +97,8 @@ public class GameController : MonoBehaviour
             Camera.main.transform.LookAt(centralPosition);
             gameOverScreen.SetActive(true);
             gameOverScreen.GetComponent<AudioSource>().Play();
+
+            StartCoroutine(ResetGameDelay(5.0f));
         }
     }
 
@@ -119,5 +129,22 @@ public class GameController : MonoBehaviour
             familySymbols[i] = shuffledSymbolIndex.Dequeue();
 
         return familySymbols;
+    }
+
+    private IEnumerator ResetGameDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        ResetGame();
+    }
+
+    public void ResetGame()
+    {
+        shuffledSymbolIndex = null;
+        GameObject.Find("Map").GetComponent<MapController>().ResetGame();
+        GameObject.Find("Families").GetComponent<FamiliesManager>().ResetGame();
+        _gameOver = false;
+        gameOverScreen.SetActive(false);
+        Camera.main.transform.position = cameraOrigPosition;
+        Camera.main.transform.rotation = cameraOrigRotation;
     }
 }

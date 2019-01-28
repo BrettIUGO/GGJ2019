@@ -103,9 +103,25 @@ public class MapController : MonoBehaviour
         _maxMapExtents.x -= mapIndent;
         _maxMapExtents.y -= mapIndent;
 
+        GenerateMapElements();
+    }
+
+    public void ResetGame()
+    {
+        GenerateMapElements();
+    }
+
+    private void GenerateMapElements()
+    {
+        GameObject[] existingElements = GameObject.FindGameObjectsWithTag("MapElement");
+        for(int i = 0; i < existingElements.Length; ++i)
+        {
+            Destroy(existingElements[i]);
+        }
+
         //Auto Generate Map Elements
         int numElements = Random.Range(minNumElements, maxNumElements);
-        for(int i = 0; i < numElements; ++i)
+        for (int i = 0; i < numElements; ++i)
         {
             int randomElementIndex = Random.Range(0, elements.Length);
             GameObject element = Instantiate(elements[randomElementIndex], transform);
